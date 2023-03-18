@@ -1,6 +1,9 @@
 package io.hauyu07.orderingservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
@@ -12,6 +15,10 @@ public class Restaurant {
 
     @Column(unique = true)
     private String name;
+
+    @OneToMany(mappedBy = "restaurant")
+    @JsonIgnore
+    private List<Menu> menus;
 
     private Restaurant() {
     }
@@ -26,5 +33,13 @@ public class Restaurant {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }
