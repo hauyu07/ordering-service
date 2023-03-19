@@ -4,9 +4,11 @@ import io.hauyu07.orderingservice.dto.MenuDto;
 import io.hauyu07.orderingservice.entity.Menu;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
 import io.hauyu07.orderingservice.service.MenuService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Menu")
 @RestController
 @RequestMapping
 public class MenuController {

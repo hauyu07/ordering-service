@@ -4,9 +4,11 @@ import io.hauyu07.orderingservice.dto.RestaurantDto;
 import io.hauyu07.orderingservice.entity.Restaurant;
 import io.hauyu07.orderingservice.mapper.RestaurantMapper;
 import io.hauyu07.orderingservice.service.RestaurantService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Restaurant")
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantController {
