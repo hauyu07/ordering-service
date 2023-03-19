@@ -1,5 +1,6 @@
 package io.hauyu07.orderingservice.controller;
 
+import io.hauyu07.orderingservice.dto.MenuCreationDto;
 import io.hauyu07.orderingservice.dto.MenuDto;
 import io.hauyu07.orderingservice.entity.Menu;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
@@ -33,16 +34,16 @@ public class MenuController {
     }
 
     @PostMapping("/restaurants/{restaurantId}/menus")
-    public MenuDto createMenu(@PathVariable Long restaurantId, @RequestBody MenuDto menuDto) {
-        Menu menu = menuMapper.menuDtoToMenu(menuDto);
+    public MenuCreationDto createMenu(@PathVariable Long restaurantId, @RequestBody MenuCreationDto menuCreationDto) {
+        Menu menu = menuMapper.menuDtoToMenu(menuCreationDto);
         menuService.createMenu(restaurantId, menu);
-        return menuDto;
+        return menuCreationDto;
     }
 
-    @PutMapping("/menus/{id}")
-    public Menu updateMenu(@PathVariable Long id, @RequestBody Menu updatedMenu) {
-        return menuService.updateMenu(id, updatedMenu);
-    }
+//    @PutMapping("/menus/{id}")
+//    public Menu updateMenu(@PathVariable Long id, @RequestBody Menu updatedMenu) {
+//        return menuService.updateMenu(id, updatedMenu);
+//    }
 
 //    @DeleteMapping("/{id}")
 //    public void deleteMenu(@PathVariable Long id) {

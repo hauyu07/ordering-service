@@ -1,5 +1,6 @@
 package io.hauyu07.orderingservice.controller;
 
+import io.hauyu07.orderingservice.dto.RestaurantCreationDto;
 import io.hauyu07.orderingservice.dto.RestaurantDto;
 import io.hauyu07.orderingservice.entity.Restaurant;
 import io.hauyu07.orderingservice.mapper.RestaurantMapper;
@@ -33,10 +34,10 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public RestaurantDto createRestaurant(@RequestBody RestaurantDto restaurantDto) {
-        Restaurant restaurant = restaurantMapper.restaurantDtoToRestaurant(restaurantDto);
+    public RestaurantCreationDto createRestaurant(@RequestBody RestaurantCreationDto restaurantCreationDto) {
+        Restaurant restaurant = restaurantMapper.restaurantCreationDtoToRestaurant(restaurantCreationDto);
         restaurantService.createRestaurant(restaurant);
-        return restaurantDto;
+        return restaurantCreationDto;
     }
 
 //    @PutMapping("/{id}")
