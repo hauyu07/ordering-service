@@ -1,6 +1,8 @@
 package io.hauyu07.orderingservice.controller;
 
+import io.hauyu07.orderingservice.dto.RestaurantDto;
 import io.hauyu07.orderingservice.entity.Restaurant;
+import io.hauyu07.orderingservice.mapper.RestaurantMapper;
 import io.hauyu07.orderingservice.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,9 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
 //    @GetMapping
 //    public Page<Restaurant> getAllRestaurants(
 //            @RequestParam(defaultValue = "0") int page,
@@ -20,13 +25,16 @@ public class RestaurantController {
 //    }
 
     @GetMapping("/{id}")
-    public Restaurant getRestaurantById(@PathVariable Long id) {
-        return restaurantService.getRestaurantById(id);
+    public RestaurantDto getRestaurantById(@PathVariable Long id) {
+        Restaurant restaurant = restaurantService.getRestaurantById(id);
+        return restaurantMapper.restaurantToRestaurantDto(restaurant);
     }
 
     @PostMapping
-    public Restaurant createRestaurant(@RequestBody Restaurant restaurant) {
-        return restaurantService.createRestaurant(restaurant);
+    public RestaurantDto createRestaurant(@RequestBody RestaurantDto restaurantDto) {
+        Restaurant restaurant = restaurantMapper.restaurantDtoToRestaurant(restaurantDto);
+        restaurantService.createRestaurant(restaurant);
+        return restaurantDto;
     }
 
 //    @PutMapping("/{id}")

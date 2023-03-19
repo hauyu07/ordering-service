@@ -1,6 +1,5 @@
 package io.hauyu07.orderingservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -17,7 +16,6 @@ public class Restaurant {
     private String name;
 
     @OneToMany(mappedBy = "restaurant")
-    @JsonIgnore
     private List<Menu> menus;
 
     private Restaurant() {

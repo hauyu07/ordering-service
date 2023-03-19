@@ -1,6 +1,5 @@
 package io.hauyu07.orderingservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,7 +12,6 @@ public class Menu {
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @JsonIgnore
     private Restaurant restaurant;
 
     private String name;

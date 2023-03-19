@@ -1,6 +1,8 @@
 package io.hauyu07.orderingservice.controller;
 
+import io.hauyu07.orderingservice.dto.MenuDto;
 import io.hauyu07.orderingservice.entity.Menu;
+import io.hauyu07.orderingservice.mapper.MenuMapper;
 import io.hauyu07.orderingservice.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,9 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private MenuMapper menuMapper;
+
 //    @GetMapping
 //    public Page<Menu> getAllMenus(
 //            @RequestParam(defaultValue = "0") int page,
@@ -20,13 +25,16 @@ public class MenuController {
 //    }
 
     @GetMapping("/menus/{id}")
-    public Menu getMenuById(@PathVariable Long id) {
-        return menuService.getMenuById(id);
+    public MenuDto getMenuById(@PathVariable Long id) {
+        Menu menu = menuService.getMenuById(id);
+        return menuMapper.menuToMenuDto(menu);
     }
 
     @PostMapping("/restaurants/{restaurantId}/menus")
-    public Menu createMenu(@PathVariable Long restaurantId, @RequestBody Menu menu) {
-        return menuService.createMenu(restaurantId, menu);
+    public MenuDto createMenu(@PathVariable Long restaurantId, @RequestBody MenuDto menuDto) {
+        Menu menu = menuMapper.menuDtoToMenu(menuDto);
+        menuService.createMenu(restaurantId, menu);
+        return menuDto;
     }
 
     @PutMapping("/menus/{id}")
