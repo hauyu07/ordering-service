@@ -22,6 +22,10 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
         run: ./gradlew clean build
 
       - name: Upload artifact for deployment job
