@@ -22,6 +22,24 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<MenuCategory> categories;
 
+    public Menu() {
+    }
+
+    public Menu(Restaurant restaurant, String name, String description, List<MenuCategory> categories) {
+        this.restaurant = restaurant;
+        this.name = name;
+        this.description = description;
+        this.categories = categories;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
