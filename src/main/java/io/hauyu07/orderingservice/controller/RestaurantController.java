@@ -1,23 +1,18 @@
 package io.hauyu07.orderingservice.controller;
 
-import io.hauyu07.orderingservice.dto.MenuCreationDto;
-import io.hauyu07.orderingservice.dto.RestaurantCreationDto;
-import io.hauyu07.orderingservice.dto.RestaurantDto;
-import io.hauyu07.orderingservice.entity.Menu;
-import io.hauyu07.orderingservice.entity.MenuCategory;
-import io.hauyu07.orderingservice.entity.MenuItem;
-import io.hauyu07.orderingservice.entity.Restaurant;
+import io.hauyu07.orderingservice.dto.*;
+import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
+import io.hauyu07.orderingservice.mapper.OrderMapper;
 import io.hauyu07.orderingservice.mapper.RestaurantMapper;
-import io.hauyu07.orderingservice.service.MenuCategoryService;
-import io.hauyu07.orderingservice.service.MenuItemService;
-import io.hauyu07.orderingservice.service.MenuService;
-import io.hauyu07.orderingservice.service.RestaurantService;
+import io.hauyu07.orderingservice.service.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Restaurant")
 @RestController
@@ -34,6 +29,12 @@ public class RestaurantController {
     private MenuCategoryService menuCategoryService;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderItemService orderItemService;
+
+    @Autowired
     private MenuItemService menuItemService;
 
     @Autowired
@@ -41,6 +42,9 @@ public class RestaurantController {
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
 
 //    @GetMapping
 //    public Page<Restaurant> getAllRestaurants(
@@ -76,6 +80,21 @@ public class RestaurantController {
             }
         }
         return menuCreationDto;
+    }
+
+    // TODO: refactor creation of order along with the associated nested entities
+    @Transactional
+    @PostMapping("/{id}/orders")
+    public OrderCreationDto createOrder(@PathVariable Long id, @RequestBody OrderCreationDto orderCreationDto) {
+        Order order = orderMapper.orderCreationDtoToOrder(orderCreationDto);
+        Order createdOrder = orderService.createOrder(id, order);
+        List<OrderItemCreationDto> orderItemCreationDtos = orderCreationDto.getItems();
+        List<OrderItem> orderItems = orderItemCreationDtos.stream().map(item -> {
+            MenuItem menuItem = menuItemService.getMenuItemById(item.getMenuItemId());
+            return new OrderItem(menuItem, item.getQuantity());
+        }).collect(Collectors.toList());
+        orderItemService.createMultipleOrderItems(createdOrder.getId(), orderItems);
+        return orderCreationDto;
     }
 
 //    @PutMapping("/{id}")

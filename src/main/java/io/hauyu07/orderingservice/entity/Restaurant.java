@@ -18,6 +18,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<Menu> menus;
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<Order> orders;
+
     private Restaurant() {
     }
 
@@ -39,5 +42,13 @@ public class Restaurant {
 
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

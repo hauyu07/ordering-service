@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Menu")
 @RestController
-@RequestMapping
+@RequestMapping("/menus")
 public class MenuController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class MenuController {
 //        return menuService.getAllMenus(page, size);
 //    }
 
-    @GetMapping("/menus/{id}")
+    @GetMapping("/{id}")
     public MenuDto getMenuById(@PathVariable Long id) {
         Menu menu = menuService.getMenuById(id);
         return menuMapper.menuToMenuDto(menu);

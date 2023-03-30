@@ -24,4 +24,11 @@ public class MenuItemService {
         menuItem.setCategory(menuCategory);
         return menuItemRepository.save(menuItem);
     }
+
+    public MenuItem getMenuItemById(Long menuItemId) {
+        MenuItem menuItem = menuItemRepository
+                .findById(menuItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("MenuItem", "id", menuItemId));
+        return menuItem;
+    }
 }
