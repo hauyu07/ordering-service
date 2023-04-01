@@ -1,14 +1,12 @@
 package io.hauyu07.orderingservice.dto;
 
-import java.util.List;
-
-public class MenuCreationDto {
+public class MenuItemCreationDto {
 
     private String name;
 
     private String description;
 
-    private List<MenuCategoryCreationDto> categories;
+    private Double price;
 
     public String getName() {
         return name;
@@ -26,11 +24,11 @@ public class MenuCreationDto {
         this.description = description;
     }
 
-    public List<MenuCategoryCreationDto> getCategories() {
-        return categories;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setCategories(List<MenuCategoryCreationDto> categories) {
-        this.categories = categories;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

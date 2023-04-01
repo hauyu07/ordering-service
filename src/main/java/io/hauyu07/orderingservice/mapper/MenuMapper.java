@@ -8,14 +8,12 @@ import io.hauyu07.orderingservice.entity.Restaurant;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface MenuMapper {
 
     @Mapping(target = "restaurant", ignore = true)
     @Mapping(target = "categories", ignore = true)
-    Menu menuDtoToMenu(MenuCreationDto menuCreationDto);
+    Menu menuCreationDtoToMenu(MenuCreationDto menuCreationDto);
 
     MenuDto menuToMenuDto(Menu menu);
 
@@ -23,9 +21,11 @@ public interface MenuMapper {
 
     MenuCategory menuCategoryDtoToMenuCategory(MenuCategoryDto menuCategoryDto);
 
-    List<MenuCategory> menuCategoryDtoListToMenuCategoryList(List<MenuCategoryDto> menuCategoryDtoList);
+    MenuCategory menuCategoryCreationDtoToMenuCategory(MenuCategoryCreationDto menuCategoryCreationDto);
 
     MenuCategoryDto menuCateogoryToMenuCategoryDto(MenuCategory menuCategory);
 
     MenuItemDto menuItemToMenuItemDto(MenuItem menuItem);
+
+    MenuItem menuItemCreationDtoToMenuItem(MenuItemCreationDto menuItemCreationDto);
 }

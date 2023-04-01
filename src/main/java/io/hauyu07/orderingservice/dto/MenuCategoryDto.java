@@ -4,11 +4,21 @@ import java.util.List;
 
 public class MenuCategoryDto {
 
+    private Long id;
+
     private String name;
 
     private String description;
 
     private List<MenuItemDto> items;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

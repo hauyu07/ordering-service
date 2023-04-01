@@ -69,14 +69,13 @@ public class RestaurantController {
     // TODO: refactor creation of menu along with the associated nested entities
     @PostMapping("/{id}/menus")
     public MenuCreationDto createMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
-        Menu menu = menuMapper.menuDtoToMenu(menuCreationDto);
-        Menu createdMenu = menuService.createMenu(id, menu);
-        List<MenuCategory> categories = menuMapper.menuCategoryDtoListToMenuCategoryList(menuCreationDto.getCategories());
-        for (MenuCategory category : categories) {
-            MenuCategory createdMenuCategory = menuCategoryService.createMenuCategory(createdMenu.getId(), category);
-            List<MenuItem> items = category.getItems();
-            for (MenuItem item : items) {
-                menuItemService.createMenuItem(createdMenuCategory.getId(), item);
+        Menu menu = menuService.createMenu(id, menuMapper.menuCreationDtoToMenu(menuCreationDto));
+        List<MenuCategoryCreationDto> menuCategoryCreationDtos = menuCreationDto.getCategories();
+        for (MenuCategoryCreationDto menuCategoryCreationDto : menuCategoryCreationDtos) {
+            MenuCategory category = menuCategoryService.createMenuCategory(menu.getId(), menuMapper.menuCategoryCreationDtoToMenuCategory(menuCategoryCreationDto));
+            List<MenuItemCreationDto> menuItemCreationDtos = menuCategoryCreationDto.getItems();
+            for (MenuItemCreationDto menuItemCreationDto : menuItemCreationDtos) {
+                MenuItem menuItem = menuItemService.createMenuItem(category.getId(), menuMapper.menuItemCreationDtoToMenuItem(menuItemCreationDto));
             }
         }
         return menuCreationDto;

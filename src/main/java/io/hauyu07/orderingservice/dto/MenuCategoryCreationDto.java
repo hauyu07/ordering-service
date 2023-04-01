@@ -2,13 +2,13 @@ package io.hauyu07.orderingservice.dto;
 
 import java.util.List;
 
-public class MenuCreationDto {
+public class MenuCategoryCreationDto {
 
     private String name;
 
     private String description;
 
-    private List<MenuCategoryCreationDto> categories;
+    private List<MenuItemCreationDto> items;
 
     public String getName() {
         return name;
@@ -26,11 +26,11 @@ public class MenuCreationDto {
         this.description = description;
     }
 
-    public List<MenuCategoryCreationDto> getCategories() {
-        return categories;
+    public List<MenuItemCreationDto> getItems() {
+        return items;
     }
 
-    public void setCategories(List<MenuCategoryCreationDto> categories) {
-        this.categories = categories;
+    public void setItems(List<MenuItemCreationDto> items) {
+        this.items = items;
     }
 }
