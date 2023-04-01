@@ -29,12 +29,12 @@ public class Order {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at")
+    @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
     public Long getId() {
@@ -77,26 +77,24 @@ public class Order {
         this.items = items;
     }
 
-    public void appendItem(OrderItem item) {
-        this.items.add(item);
-    }
-
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = new Date();
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = new Date();
+    public void appendItem(OrderItem item) {
+        this.items.add(item);
     }
 
     public Double getTotalPrice() {
