@@ -26,9 +26,6 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -78,14 +75,6 @@ public class Order {
         this.items.add(item);
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -93,5 +82,13 @@ public class Order {
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
+    }
+
+    public Double getTotalPrice() {
+        double totalPrice = 0.0;
+        for (OrderItem item : items) {
+            totalPrice += item.getMenuItem().getPrice() * item.getQuantity();
+        }
+        return totalPrice;
     }
 }
