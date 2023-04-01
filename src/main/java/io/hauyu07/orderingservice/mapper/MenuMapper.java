@@ -12,7 +12,6 @@ import org.mapstruct.Mapping;
 public interface MenuMapper {
 
     @Mapping(target = "restaurant", ignore = true)
-    @Mapping(target = "categories", ignore = true)
     Menu menuCreationDtoToMenu(MenuCreationDto menuCreationDto);
 
     MenuDto menuToMenuDto(Menu menu);

@@ -1,5 +1,6 @@
 package io.hauyu07.orderingservice.controller;
 
+import io.hauyu07.orderingservice.dto.MenuCreationDto;
 import io.hauyu07.orderingservice.dto.MenuDto;
 import io.hauyu07.orderingservice.entity.Menu;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
@@ -8,10 +9,7 @@ import io.hauyu07.orderingservice.service.MenuItemService;
 import io.hauyu07.orderingservice.service.MenuService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Menu")
 @RestController
@@ -43,10 +41,11 @@ public class MenuController {
         return menuMapper.menuToMenuDto(menu);
     }
 
-//    @PutMapping("/menus/{id}")
-//    public Menu updateMenu(@PathVariable Long id, @RequestBody Menu updatedMenu) {
-//        return menuService.updateMenu(id, updatedMenu);
-//    }
+    @PutMapping("/{id}")
+    public MenuDto updateMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
+        Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
+        return menuMapper.menuToMenuDto(menuService.updateMenu(id, menu));
+    }
 
 //    @DeleteMapping("/{id}")
 //    public void deleteMenu(@PathVariable Long id) {
