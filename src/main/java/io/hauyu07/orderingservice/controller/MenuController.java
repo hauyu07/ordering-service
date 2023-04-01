@@ -47,8 +47,8 @@ public class MenuController {
         return menuMapper.menuToMenuDto(menuService.updateMenu(id, menu));
     }
 
-//    @DeleteMapping("/{id}")
-//    public void deleteMenu(@PathVariable Long id) {
-//        menuService.deleteMenu(id);
-//    }
+    @DeleteMapping("/{id}")
+    public void deleteMenu(@PathVariable Long id) {
+        menuService.deleteMenu(id);
+    }
 }

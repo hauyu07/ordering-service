@@ -19,7 +19,7 @@ public class Menu {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "menu")
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MenuCategory> categories;
 
     public Menu() {

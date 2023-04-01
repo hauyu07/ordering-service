@@ -16,7 +16,7 @@ public class MenuCategory {
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MenuItem> items;
 
     private String name;
