@@ -87,6 +87,12 @@ public class RestaurantController {
         return menuCreationDto;
     }
 
+    @GetMapping("/{id}/orders")
+    public List<OrderListingDto> getOrders(@PathVariable Long id) {
+        List<Order> orders = restaurantService.getRestaurantOrders(id);
+        return orderMapper.orderListToOrderListingDtoList(orders);
+    }
+
     // TODO: refactor creation of order along with the associated nested entities
     @Transactional
     @PostMapping("/{id}/orders")

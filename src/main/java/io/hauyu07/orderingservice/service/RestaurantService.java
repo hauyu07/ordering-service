@@ -1,6 +1,7 @@
 package io.hauyu07.orderingservice.service;
 
 import io.hauyu07.orderingservice.entity.Menu;
+import io.hauyu07.orderingservice.entity.Order;
 import io.hauyu07.orderingservice.entity.Restaurant;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
 import io.hauyu07.orderingservice.repository.RestaurantRepository;
@@ -50,5 +51,11 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
         return restaurant.getMenus();
+    }
+
+    public List<Order> getRestaurantOrders(Long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
+        return restaurant.getOrders();
     }
 }

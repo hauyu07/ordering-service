@@ -1,9 +1,6 @@
 package io.hauyu07.orderingservice.mapper;
 
-import io.hauyu07.orderingservice.dto.OrderCreationDto;
-import io.hauyu07.orderingservice.dto.OrderDto;
-import io.hauyu07.orderingservice.dto.OrderItemCreationDto;
-import io.hauyu07.orderingservice.dto.OrderItemDto;
+import io.hauyu07.orderingservice.dto.*;
 import io.hauyu07.orderingservice.entity.Order;
 import io.hauyu07.orderingservice.entity.OrderItem;
 import org.mapstruct.*;
@@ -19,6 +16,7 @@ public interface OrderMapper {
 
     Order orderCreationDtoToOrder(OrderCreationDto orderCreationDto);
 
+
     @Mapping(target = ".", source = "menuItem")
     OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
 
@@ -27,5 +25,17 @@ public interface OrderMapper {
     @AfterMapping
     default void calculateTotalPrice(Order order, @MappingTarget OrderDto orderDto) {
         orderDto.setTotalPrice(order.getTotalPrice());
+    }
+
+    List<OrderListingDto> orderListToOrderListingDtoList(List<Order> orderList);
+
+    @AfterMapping
+    default void calculateNumberOfItems(Order order, @MappingTarget OrderListingDto orderListingDto) {
+        int count = 0;
+        List<OrderItem> items = order.getItems();
+        for (OrderItem item : items) {
+            count += item.getQuantity();
+        }
+        orderListingDto.setNumberOfItems(count);
     }
 }
