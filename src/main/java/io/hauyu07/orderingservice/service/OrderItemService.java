@@ -40,6 +40,10 @@ public class OrderItemService {
             orderItem.setOrder(order);
             orderItemRepository.save(orderItem);
         });
+        if (!order.getStatus().equals("pending")) {
+            order.setStatus("pending");
+        }
+        orderRepository.save(order);
         return order;
     }
 }

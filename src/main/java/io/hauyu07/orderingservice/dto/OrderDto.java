@@ -17,6 +17,8 @@ public class OrderDto {
 
     private Date createdAt;
 
+    private Date updatedAt;
+
     public Long getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class OrderDto {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

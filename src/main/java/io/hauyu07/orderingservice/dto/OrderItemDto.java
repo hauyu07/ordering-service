@@ -1,5 +1,7 @@
 package io.hauyu07.orderingservice.dto;
 
+import java.util.Date;
+
 public class OrderItemDto {
 
     private String name;
@@ -7,6 +9,8 @@ public class OrderItemDto {
     private Double price;
 
     private Integer quantity;
+
+    private Date createdAt;
 
     public String getName() {
         return name;
@@ -30,5 +34,13 @@ public class OrderItemDto {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

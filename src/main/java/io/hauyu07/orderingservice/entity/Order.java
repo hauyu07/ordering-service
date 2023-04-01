@@ -2,6 +2,7 @@ package io.hauyu07.orderingservice.entity;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,11 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     private Date createdAt;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     public Long getId() {
         return id;
@@ -79,9 +85,18 @@ public class Order {
         return createdAt;
     }
 
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = new Date();
     }
 
     public Double getTotalPrice() {
