@@ -10,10 +10,6 @@ import io.hauyu07.orderingservice.repository.MenuItemRepository;
 import io.hauyu07.orderingservice.repository.MenuRepository;
 import io.hauyu07.orderingservice.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,11 +30,6 @@ public class MenuService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
-
-    public Page<Menu> getAllMenus(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        return menuRepository.findAll(pageable);
-    }
 
     public Menu getMenuById(Long id) {
         return menuRepository.findById(id)

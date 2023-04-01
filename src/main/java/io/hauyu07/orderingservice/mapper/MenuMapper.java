@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 
@@ -16,6 +18,8 @@ public interface MenuMapper {
     Menu menuCreationDtoToMenu(MenuCreationDto menuCreationDto);
 
     MenuDto menuToMenuDto(Menu menu);
+
+    List<MenuListingDto> menuListToMenuListingDtoList(List<Menu> menuList);
 
     RestaurantDto restaurantToRestaurantDto(Restaurant restaurant);
 

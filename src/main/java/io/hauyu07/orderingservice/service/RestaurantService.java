@@ -1,5 +1,6 @@
 package io.hauyu07.orderingservice.service;
 
+import io.hauyu07.orderingservice.entity.Menu;
 import io.hauyu07.orderingservice.entity.Restaurant;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
 import io.hauyu07.orderingservice.repository.RestaurantRepository;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RestaurantService {
@@ -41,5 +44,11 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
         restaurantRepository.delete(restaurant);
+    }
+
+    public List<Menu> getRestaurantMenus(Long id) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", id));
+        return restaurant.getMenus();
     }
 }
