@@ -1,6 +1,6 @@
 package io.hauyu07.orderingservice.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "menu_items")

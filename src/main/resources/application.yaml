@@ -10,3 +10,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+springdoc:
+  swagger-ui.path: /api-docs
