@@ -3,6 +3,10 @@ spring:
     user:
       name: user
       password: 123456
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://www.googleapis.com/service_accounts/v1/jwk/securetoken%40system.gserviceaccount.com
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
