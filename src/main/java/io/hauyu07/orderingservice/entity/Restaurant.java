@@ -1,6 +1,7 @@
 package io.hauyu07.orderingservice.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,6 +20,9 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<User> users = new ArrayList<>();
 
     private Restaurant() {
     }
@@ -49,5 +53,13 @@ public class Restaurant {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
     }
 }

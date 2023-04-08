@@ -59,13 +59,6 @@ public class RestaurantController {
         return restaurantMapper.restaurantToRestaurantDto(restaurant);
     }
 
-    @PostMapping
-    public RestaurantCreationDto createRestaurant(@RequestBody RestaurantCreationDto restaurantCreationDto) {
-        Restaurant restaurant = restaurantMapper.restaurantCreationDtoToRestaurant(restaurantCreationDto);
-        restaurantService.createRestaurant(restaurant);
-        return restaurantCreationDto;
-    }
-
     @GetMapping("/{id}/menus")
     public List<MenuListingDto> getRestaurantMenus(@PathVariable Long id) {
         List<Menu> menus = restaurantService.getRestaurantMenus(id);
