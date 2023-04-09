@@ -1,18 +1,12 @@
 package io.hauyu07.orderingservice.service;
 
-import io.hauyu07.orderingservice.entity.Menu;
-import io.hauyu07.orderingservice.entity.MenuCategory;
-import io.hauyu07.orderingservice.entity.MenuItem;
-import io.hauyu07.orderingservice.entity.Restaurant;
+import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
-import io.hauyu07.orderingservice.repository.MenuCategoryRepository;
-import io.hauyu07.orderingservice.repository.MenuItemRepository;
-import io.hauyu07.orderingservice.repository.MenuRepository;
-import io.hauyu07.orderingservice.repository.RestaurantRepository;
+import io.hauyu07.orderingservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,17 +25,43 @@ public class MenuService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    public List<Menu> getMenusByRestaurantUser(String userId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        return user.getRestaurant().getMenus();
+    }
+
     public Menu getMenuById(Long id) {
         return menuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu", "id", id));
     }
 
-    public Menu createMenu(Long restaurantId, Menu menu) {
-        Restaurant restaurant = restaurantRepository
-                .findById(restaurantId)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant", "id", restaurantId));
+    @Transactional
+    public void createMenu(String userId, Menu menu) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        Restaurant restaurant = user.getRestaurant();
         menu.setRestaurant(restaurant);
-        return menuRepository.save(menu);
+        Menu createdMenu = menuRepository.save(menu);
+
+        List<MenuCategory> menuCategories = menu.getCategories();
+        List<MenuItem> menuItemsToCreate = new ArrayList<>();
+        for (MenuCategory category : menuCategories) {
+            category.setMenu(createdMenu);
+            List<MenuItem> menuItems = category.getItems();
+            for (MenuItem item : menuItems) {
+                item.setCategory(category);
+                menuItemsToCreate.add(item);
+            }
+        }
+        menuCategoryRepository.saveAll(menuCategories);
+        menuItemRepository.saveAll(menuItemsToCreate);
     }
 
     @Transactional

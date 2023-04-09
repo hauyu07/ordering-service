@@ -1,11 +1,18 @@
 package io.hauyu07.orderingservice.controller;
 
-import io.hauyu07.orderingservice.dto.*;
-import io.hauyu07.orderingservice.entity.*;
+import io.hauyu07.orderingservice.dto.OrderCreationDto;
+import io.hauyu07.orderingservice.dto.OrderItemCreationDto;
+import io.hauyu07.orderingservice.dto.OrderListingDto;
+import io.hauyu07.orderingservice.entity.MenuItem;
+import io.hauyu07.orderingservice.entity.Order;
+import io.hauyu07.orderingservice.entity.OrderItem;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
 import io.hauyu07.orderingservice.mapper.OrderMapper;
 import io.hauyu07.orderingservice.mapper.RestaurantMapper;
-import io.hauyu07.orderingservice.service.*;
+import io.hauyu07.orderingservice.service.MenuItemService;
+import io.hauyu07.orderingservice.service.OrderItemService;
+import io.hauyu07.orderingservice.service.OrderService;
+import io.hauyu07.orderingservice.service.RestaurantService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +28,6 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
-
-    @Autowired
-    private MenuService menuService;
-
-    @Autowired
-    private MenuCategoryService menuCategoryService;
 
     @Autowired
     private OrderService orderService;
@@ -45,40 +46,6 @@ public class RestaurantController {
 
     @Autowired
     private OrderMapper orderMapper;
-
-//    @GetMapping
-//    public Page<Restaurant> getAllRestaurants(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "10") int size) {
-//        return restaurantService.getAllRestaurants(page, size);
-//    }
-
-    @GetMapping("/{id}")
-    public RestaurantDto getRestaurantById(@PathVariable Long id) {
-        Restaurant restaurant = restaurantService.getRestaurantById(id);
-        return restaurantMapper.restaurantToRestaurantDto(restaurant);
-    }
-
-    @GetMapping("/{id}/menus")
-    public List<MenuListingDto> getRestaurantMenus(@PathVariable Long id) {
-        List<Menu> menus = restaurantService.getRestaurantMenus(id);
-        return menuMapper.menuListToMenuListingDtoList(menus);
-    }
-
-    // TODO: refactor creation of menu along with the associated nested entities
-    @PostMapping("/{id}/menus")
-    public MenuCreationDto createMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
-        Menu menu = menuService.createMenu(id, menuMapper.menuCreationDtoToMenu(menuCreationDto));
-        List<MenuCategoryCreationDto> menuCategoryCreationDtos = menuCreationDto.getCategories();
-        for (MenuCategoryCreationDto menuCategoryCreationDto : menuCategoryCreationDtos) {
-            MenuCategory category = menuCategoryService.createMenuCategory(menu.getId(), menuMapper.menuCategoryCreationDtoToMenuCategory(menuCategoryCreationDto));
-            List<MenuItemCreationDto> menuItemCreationDtos = menuCategoryCreationDto.getItems();
-            for (MenuItemCreationDto menuItemCreationDto : menuItemCreationDtos) {
-                MenuItem menuItem = menuItemService.createMenuItem(category.getId(), menuMapper.menuItemCreationDtoToMenuItem(menuItemCreationDto));
-            }
-        }
-        return menuCreationDto;
-    }
 
     @GetMapping("/{id}/orders")
     public List<OrderListingDto> getOrders(@PathVariable Long id) {
@@ -100,14 +67,4 @@ public class RestaurantController {
         orderItemService.createMultipleOrderItems(createdOrder.getId(), orderItems);
         return orderCreationDto;
     }
-
-//    @PutMapping("/{id}")
-//    public Restaurant updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updatedRestaurant) {
-//        return restaurantService.updateRestaurant(id, updatedRestaurant);
-//    }
-
-//    @DeleteMapping("/{id}")
-//    public void deleteRestaurant(@PathVariable Long id) {
-//        restaurantService.deleteRestaurant(id);
-//    }
 }
