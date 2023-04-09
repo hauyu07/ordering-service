@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@Tag(name = "Order")
+@Tag(name = "Order", description = "Manage orders from a restaurant users' view")
 @RestController
 @RequestMapping("/orders")
 public class OrderController {

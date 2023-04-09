@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-@Tag(name = "Menu")
+@Tag(name = "Menu", description = "Manage menus from a restaurant user's view")
 @RestController
 @RequestMapping("/menus")
 public class MenuController {
