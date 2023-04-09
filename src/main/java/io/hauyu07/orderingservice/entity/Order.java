@@ -24,6 +24,9 @@ public class Order {
     @Column(name = "table_number")
     private Integer tableNumber;
 
+    @ManyToOne(optional = false)
+    private Customer customer;
+
     @OneToMany(mappedBy = "order")
     private List<OrderItem> items;
 
@@ -67,6 +70,14 @@ public class Order {
 
     public void setTableNumber(Integer tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public List<OrderItem> getItems() {

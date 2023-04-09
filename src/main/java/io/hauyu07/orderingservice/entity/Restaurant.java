@@ -24,6 +24,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<Customer> customers = new ArrayList<>();
+
     private Restaurant() {
     }
 
@@ -59,7 +62,19 @@ public class Restaurant {
         return users;
     }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public void addUser(User user) {
         users.add(user);
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 }

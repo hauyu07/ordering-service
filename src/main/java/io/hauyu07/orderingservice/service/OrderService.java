@@ -2,10 +2,7 @@ package io.hauyu07.orderingservice.service;
 
 import io.hauyu07.orderingservice.dto.OrderCreationDto;
 import io.hauyu07.orderingservice.dto.OrderItemCreationDto;
-import io.hauyu07.orderingservice.entity.MenuItem;
-import io.hauyu07.orderingservice.entity.Order;
-import io.hauyu07.orderingservice.entity.OrderItem;
-import io.hauyu07.orderingservice.entity.User;
+import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
 import io.hauyu07.orderingservice.mapper.OrderMapper;
 import io.hauyu07.orderingservice.repository.*;
@@ -15,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -35,6 +33,9 @@ public class OrderService {
     private UserRepository userRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private OrderMapper orderMapper;
 
     public List<Order> getOrdersByRestaurantUser(String userId) {
@@ -42,6 +43,13 @@ public class OrderService {
                 .findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         return user.getRestaurant().getOrders();
+    }
+
+    public List<Order> getOrderByCustomer(UUID customerId) {
+        Customer customer = customerRepository
+                .findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+        return customer.getOrders();
     }
 
     public Order getOrderById(Long orderId) {
