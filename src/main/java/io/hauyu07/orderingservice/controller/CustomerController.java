@@ -1,9 +1,8 @@
 package io.hauyu07.orderingservice.controller;
 
-import io.hauyu07.orderingservice.dto.CustomerCreationDto;
-import io.hauyu07.orderingservice.dto.CustomerDto;
-import io.hauyu07.orderingservice.dto.CustomerListingDto;
+import io.hauyu07.orderingservice.dto.*;
 import io.hauyu07.orderingservice.service.CustomerService;
+import io.hauyu07.orderingservice.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private OrderService orderService;
 
     @PostMapping
     @Operation(summary = "Create a customer entry from a restaurant user's view")
@@ -50,5 +52,21 @@ public class CustomerController {
     public ResponseEntity<String> removeCustomerById(@PathVariable UUID id) {
         customerService.removeCustomerById(id);
         return ResponseEntity.ok("Success");
+    }
+
+    @PostMapping("/{id}/orders")
+    @Operation(summary = "Create an order for a customer")
+    public ResponseEntity<String> createOrderForCustomer(
+            @PathVariable UUID id,
+            @RequestBody OrderCreationDto orderCreationDto
+    ) {
+        orderService.createOrderByCustomer(id, orderCreationDto);
+        return ResponseEntity.ok("Success");
+    }
+
+    @GetMapping("/{id}/orders")
+    @Operation(summary = "List orders of a customer")
+    public ResponseEntity<List<OrderListingDto>> getCustomerOrders(@PathVariable UUID id) {
+        return ResponseEntity.ok(orderService.getOrderByCustomer(id));
     }
 }

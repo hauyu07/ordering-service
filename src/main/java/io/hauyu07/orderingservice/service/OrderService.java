@@ -2,6 +2,7 @@ package io.hauyu07.orderingservice.service;
 
 import io.hauyu07.orderingservice.dto.OrderCreationDto;
 import io.hauyu07.orderingservice.dto.OrderItemCreationDto;
+import io.hauyu07.orderingservice.dto.OrderListingDto;
 import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
 import io.hauyu07.orderingservice.mapper.OrderMapper;
@@ -45,11 +46,12 @@ public class OrderService {
         return user.getRestaurant().getOrders();
     }
 
-    public List<Order> getOrderByCustomer(UUID customerId) {
+    public List<OrderListingDto> getOrderByCustomer(UUID customerId) {
         Customer customer = customerRepository
                 .findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
-        return customer.getOrders();
+        List<Order> orders = customer.getOrders();
+        return orderMapper.orderListToOrderListingDtoList(orders);
     }
 
     public Order getOrderById(Long orderId) {
@@ -64,9 +66,41 @@ public class OrderService {
                 .findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
+        Integer tableNumber = orderCreationDto.getTableNumber();
+        Customer customer = customerRepository.findByTableNumber(tableNumber);
+
         List<OrderItemCreationDto> orderItemCreationDtos = orderCreationDto.getItems();
         Order order = orderMapper.orderCreationDtoToOrder(orderCreationDto);
         order.setRestaurant(user.getRestaurant());
+        order.setCustomer(customer);
+        Order createdOrder = orderRepository.save(order);
+
+        List<OrderItem> orderItemsToCreate = new ArrayList<>();
+        for (OrderItemCreationDto orderItemCreationDto : orderItemCreationDtos) {
+            OrderItem orderItem = new OrderItem();
+            Long menuItemId = orderItemCreationDto.getMenuItemId();
+            MenuItem menuItem = menuItemRepository
+                    .findById(menuItemId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Menu Item", "id", menuItemId));
+            orderItem.setMenuItem(menuItem);
+            orderItem.setOrder(createdOrder);
+            orderItem.setQuantity(orderItemCreationDto.getQuantity());
+            orderItemsToCreate.add(orderItem);
+        }
+        orderItemRepository.saveAll(orderItemsToCreate);
+    }
+
+    @Transactional
+    public void createOrderByCustomer(UUID customerId, OrderCreationDto orderCreationDto) {
+        Customer customer = customerRepository
+                .findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+
+        List<OrderItemCreationDto> orderItemCreationDtos = orderCreationDto.getItems();
+        Order order = orderMapper.orderCreationDtoToOrder(orderCreationDto);
+        order.setCustomer(customer);
+        order.setRestaurant(customer.getRestaurant());
+        order.setTableNumber(customer.getTableNumber());
         Order createdOrder = orderRepository.save(order);
 
         List<OrderItem> orderItemsToCreate = new ArrayList<>();
