@@ -7,8 +7,11 @@ import io.hauyu07.orderingservice.entity.Menu;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
 import io.hauyu07.orderingservice.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,11 +31,11 @@ public class MenuController {
 
     @GetMapping
     @Operation(summary = "List menus of the current user's restaurant")
-    public List<MenuListingDto> getRestaurantMenus(
+    public ResponseEntity<List<MenuListingDto>> getRestaurantMenus(
             Principal principal
     ) {
         List<Menu> menus = menuService.getMenusByRestaurantUser(principal.getName());
-        return menuMapper.menuListToMenuListingDtoList(menus);
+        return ResponseEntity.ok(menuMapper.menuListToMenuListingDtoList(menus));
     }
 
     @GetMapping("/{id}")
@@ -43,19 +46,21 @@ public class MenuController {
 
     @PostMapping
     @Operation(summary = "Create a menu for the current user's restaurant")
+    @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createRestaurantMenu(
             Principal principal,
             @RequestBody MenuCreationDto menuCreationDto
     ) {
         Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
         menuService.createMenu(principal.getName(), menu);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @PutMapping("/{id}")
-    public MenuDto updateMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
+    @ApiResponses(value = @ApiResponse(responseCode = "204"))
+    public ResponseEntity<String> updateMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
         Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
-        return menuMapper.menuToMenuDto(menuService.updateMenu(id, menu));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/{id}")

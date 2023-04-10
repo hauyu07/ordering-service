@@ -5,8 +5,11 @@ import io.hauyu07.orderingservice.mapper.RestaurantMapper;
 import io.hauyu07.orderingservice.service.AuthService;
 import io.hauyu07.orderingservice.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,13 +33,14 @@ public class AuthController {
     private RestaurantMapper restaurantMapper;
 
     @Operation(summary = "Create restaurant and its root user")
+    @ApiResponses(value = @ApiResponse(responseCode = "201"))
     @PostMapping("/sign-up")
     public ResponseEntity<String> createRestaurantRootUser(
             Principal principal,
             @RequestBody RestaurantRootUserCreationDto restaurantRootUserCreationDto
     ) {
         authService.createRestaurantRootUser(principal.getName(), restaurantRootUserCreationDto);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
 }

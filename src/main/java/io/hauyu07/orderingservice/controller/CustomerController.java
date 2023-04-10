@@ -4,8 +4,11 @@ import io.hauyu07.orderingservice.dto.*;
 import io.hauyu07.orderingservice.service.CustomerService;
 import io.hauyu07.orderingservice.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +29,13 @@ public class CustomerController {
 
     @PostMapping
     @Operation(summary = "Create a customer entry from a restaurant user's view")
+    @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createCustomer(
             Principal principal,
             @RequestBody CustomerCreationDto customerCreationDto
     ) {
         customerService.createCustomer(principal.getName(), customerCreationDto);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @GetMapping
@@ -56,12 +60,13 @@ public class CustomerController {
 
     @PostMapping("/{id}/orders")
     @Operation(summary = "Create an order for a customer")
+    @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createOrderForCustomer(
             @PathVariable UUID id,
             @RequestBody OrderCreationDto orderCreationDto
     ) {
         orderService.createOrderByCustomer(id, orderCreationDto);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @GetMapping("/{id}/orders")

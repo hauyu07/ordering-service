@@ -8,8 +8,11 @@ import io.hauyu07.orderingservice.mapper.OrderMapper;
 import io.hauyu07.orderingservice.service.MenuItemService;
 import io.hauyu07.orderingservice.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,19 +42,20 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get details of a specific order")
-    public OrderDto getOrderById(@PathVariable Long id) {
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
-        return orderMapper.orderToOrderDto(order);
+        return ResponseEntity.ok(orderMapper.orderToOrderDto(order));
     }
 
     @PostMapping
     @Operation(summary = "Create an order for the current user's restaurant (scenario of a waiter taking order )")
+    @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createRestaurantOrder(
             Principal principal,
             @RequestBody OrderCreationDto orderCreationDto
     ) {
         orderService.createOrderByRestaurantUser(principal.getName(), orderCreationDto);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("Success");
     }
 
     @DeleteMapping("/{id}")
