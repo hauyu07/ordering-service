@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Tag(name = "Auth", description = "User sign up and Restaurant creation")
@@ -29,7 +30,7 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<String> createRestaurantRootUser(
             Principal principal,
-            @RequestBody RestaurantRootUserCreationDto restaurantRootUserCreationDto
+            @Valid @RequestBody RestaurantRootUserCreationDto restaurantRootUserCreationDto
     ) {
         authService.createRestaurantRootUser(principal.getName(), restaurantRootUserCreationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");

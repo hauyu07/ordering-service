@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -20,9 +21,11 @@ public class Customer {
     @GeneratedValue
     private UUID id;
 
+    @Min(1)
     @Column(name = "table_number")
     private Integer tableNumber;
 
+    @Min(1)
     @Column(name = "head_count")
     private Integer headCount;
 

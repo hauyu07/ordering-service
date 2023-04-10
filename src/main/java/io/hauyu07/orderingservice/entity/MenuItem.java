@@ -1,6 +1,8 @@
 package io.hauyu07.orderingservice.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "menu_items")
@@ -10,14 +12,16 @@ public class MenuItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "menu_category_id", nullable = false)
     private MenuCategory category;
 
+    @NotEmpty
     private String name;
 
     private String description;
 
+    @Min(0)
     private Double price;
 
     public Long getId() {

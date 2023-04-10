@@ -1,9 +1,13 @@
 package io.hauyu07.orderingservice.dto;
 
+import javax.validation.constraints.Min;
+
 public class OrderItemCreationDto {
 
+    @Min(value = 1)
     private Long menuItemId;
 
+    @Min(value = 1, message = "Invalid quantity: must be at least 1")
     private Integer quantity;
 
     public Long getMenuItemId() {

@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class MenuController {
     @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createRestaurantMenu(
             Principal principal,
-            @RequestBody MenuCreationDto menuCreationDto
+            @Valid @RequestBody MenuCreationDto menuCreationDto
     ) {
         Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
         menuService.createMenu(principal.getName(), menu);
@@ -58,7 +59,10 @@ public class MenuController {
 
     @PutMapping("/{id}")
     @ApiResponses(value = @ApiResponse(responseCode = "204"))
-    public ResponseEntity<String> updateMenu(@PathVariable Long id, @RequestBody MenuCreationDto menuCreationDto) {
+    public ResponseEntity<String> updateMenu(
+            @PathVariable Long id,
+            @Valid @RequestBody MenuCreationDto menuCreationDto
+    ) {
         Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

@@ -1,6 +1,7 @@
 package io.hauyu07.orderingservice.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -11,13 +12,14 @@ public class MenuCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "menu_id", nullable = false)
     private Menu menu;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MenuItem> items;
 
+    @NotEmpty
     private String name;
 
     private String description;

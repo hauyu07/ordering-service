@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class OrderController {
     @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createRestaurantOrder(
             Principal principal,
-            @RequestBody OrderCreationDto orderCreationDto
+            @Valid @RequestBody OrderCreationDto orderCreationDto
     ) {
         orderService.createOrderByRestaurantUser(principal.getName(), orderCreationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");

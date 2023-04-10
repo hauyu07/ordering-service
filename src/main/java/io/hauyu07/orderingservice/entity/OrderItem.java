@@ -4,6 +4,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
@@ -22,6 +23,7 @@ public class OrderItem {
     @JoinColumn(name = "menu_item", nullable = false)
     private MenuItem menuItem;
 
+    @Min(1)
     private Integer quantity;
 
     @CreationTimestamp

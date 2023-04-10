@@ -1,6 +1,7 @@
 package io.hauyu07.orderingservice.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Entity
@@ -11,11 +12,13 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
+    @NotEmpty
     private String name;
+
     private String description;
 
     @OneToMany(mappedBy = "menu", cascade = CascadeType.REMOVE, orphanRemoval = true)

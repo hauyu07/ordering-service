@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +33,7 @@ public class CustomerController {
     @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createCustomer(
             Principal principal,
-            @RequestBody CustomerCreationDto customerCreationDto
+            @Valid @RequestBody CustomerCreationDto customerCreationDto
     ) {
         customerService.createCustomer(principal.getName(), customerCreationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");
@@ -63,7 +64,7 @@ public class CustomerController {
     @ApiResponses(value = @ApiResponse(responseCode = "201"))
     public ResponseEntity<String> createOrderForCustomer(
             @PathVariable UUID id,
-            @RequestBody OrderCreationDto orderCreationDto
+            @Valid @RequestBody OrderCreationDto orderCreationDto
     ) {
         orderService.createOrderByCustomer(id, orderCreationDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Success");

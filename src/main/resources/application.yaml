@@ -16,3 +16,6 @@ spring:
       ddl-auto: create
 springdoc:
   swagger-ui.path: /api-docs
+server:
+  error:
+    include-binding-errors: always

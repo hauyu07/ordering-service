@@ -1,13 +1,16 @@
 package io.hauyu07.orderingservice.dto;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class MenuCategoryCreationDto {
 
+    @NotEmpty(message = "Invalid category name: must not be empty")
     private String name;
 
     private String description;
 
+    @NotEmpty(message = "Invalid items: must consist of at least 1 item")
     private List<MenuItemCreationDto> items;
 
     public String getName() {
