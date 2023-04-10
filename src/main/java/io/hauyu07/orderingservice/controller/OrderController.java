@@ -5,7 +5,6 @@ import io.hauyu07.orderingservice.dto.OrderDto;
 import io.hauyu07.orderingservice.dto.OrderListingDto;
 import io.hauyu07.orderingservice.entity.Order;
 import io.hauyu07.orderingservice.mapper.OrderMapper;
-import io.hauyu07.orderingservice.service.MenuItemService;
 import io.hauyu07.orderingservice.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,9 +25,6 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
-
-    @Autowired
-    private MenuItemService menuItemService;
 
     @Autowired
     private OrderMapper orderMapper;

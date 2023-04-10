@@ -1,9 +1,7 @@
 package io.hauyu07.orderingservice.controller;
 
 import io.hauyu07.orderingservice.dto.RestaurantRootUserCreationDto;
-import io.hauyu07.orderingservice.mapper.RestaurantMapper;
 import io.hauyu07.orderingservice.service.AuthService;
-import io.hauyu07.orderingservice.service.RestaurantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,12 +23,6 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
-    @Autowired
-    private RestaurantService restaurantService;
-
-    @Autowired
-    private RestaurantMapper restaurantMapper;
 
     @Operation(summary = "Create restaurant and its root user")
     @ApiResponses(value = @ApiResponse(responseCode = "201"))
