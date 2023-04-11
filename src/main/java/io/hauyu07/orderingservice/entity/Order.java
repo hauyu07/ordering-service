@@ -21,9 +21,6 @@ public class Order {
 
     private String status = "pending";
 
-    @Column(name = "table_number")
-    private Integer tableNumber;
-
     @ManyToOne(optional = false)
     private Customer customer;
 
@@ -62,14 +59,6 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Integer getTableNumber() {
-        return tableNumber;
-    }
-
-    public void setTableNumber(Integer tableNumber) {
-        this.tableNumber = tableNumber;
     }
 
     public Customer getCustomer() {

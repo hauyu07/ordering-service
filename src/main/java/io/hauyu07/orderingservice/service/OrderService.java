@@ -100,7 +100,6 @@ public class OrderService {
         Order order = orderMapper.orderCreationDtoToOrder(orderCreationDto);
         order.setCustomer(customer);
         order.setRestaurant(customer.getRestaurant());
-        order.setTableNumber(customer.getTableNumber());
         Order createdOrder = orderRepository.save(order);
 
         List<OrderItem> orderItemsToCreate = new ArrayList<>();
