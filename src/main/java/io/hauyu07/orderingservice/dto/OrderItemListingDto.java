@@ -10,6 +10,8 @@ public class OrderItemListingDto {
 
     private Integer quantity;
 
+    private String remarks;
+
     private Date createdAt;
 
     public Integer getTableNumber() {
@@ -34,6 +36,14 @@ public class OrderItemListingDto {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Date getCreatedAt() {

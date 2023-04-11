@@ -18,6 +18,7 @@ public interface OrderItemMapper {
         orderItemListingDto.setMenuItemName(orderItem.getMenuItem().getName());
         orderItemListingDto.setQuantity(orderItem.getQuantity());
         orderItemListingDto.setCreatedAt(orderItem.getCreatedAt());
+        orderItemListingDto.setRemarks(orderItem.getRemarks());
         return orderItemListingDto;
     }
 

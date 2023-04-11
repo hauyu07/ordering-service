@@ -10,6 +10,8 @@ public class OrderItemCreationDto {
     @Min(value = 1, message = "Invalid quantity: must be at least 1")
     private Integer quantity;
 
+    private String remarks;
+
     public Long getMenuItemId() {
         return menuItemId;
     }
@@ -24,5 +26,13 @@ public class OrderItemCreationDto {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 }
