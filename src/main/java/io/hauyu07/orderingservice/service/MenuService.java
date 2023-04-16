@@ -1,7 +1,9 @@
 package io.hauyu07.orderingservice.service;
 
+import io.hauyu07.orderingservice.dto.MenuDto;
 import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
+import io.hauyu07.orderingservice.mapper.MenuMapper;
 import io.hauyu07.orderingservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class MenuService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MenuMapper menuMapper;
+
     public List<Menu> getMenusByRestaurantUser(String userId) {
         User user = userRepository
                 .findById(userId)
@@ -38,6 +43,15 @@ public class MenuService {
     public Menu getMenuById(Long id) {
         return menuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu", "id", id));
+    }
+
+    public MenuDto getActiveMenu(String userId) {
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        Restaurant restaurant = user.getRestaurant();
+        Menu menu = menuRepository.findByRestaurantAndIsActive(restaurant, true);
+        return menuMapper.menuToMenuDto(menu);
     }
 
     @Transactional

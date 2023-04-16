@@ -45,6 +45,11 @@ public class MenuController {
         return menuMapper.menuToMenuDto(menu);
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<MenuDto> getActiveMenu(Principal principal) {
+        return ResponseEntity.ok(menuService.getActiveMenu(principal.getName()));
+    }
+
     @PostMapping
     @Operation(summary = "Create a menu for the current user's restaurant")
     @ApiResponses(value = @ApiResponse(responseCode = "201"))

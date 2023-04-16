@@ -21,6 +21,8 @@ public class Menu {
 
     private String description;
 
+    private Boolean isActive = false;
+
     @OneToMany(mappedBy = "menu", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<MenuCategory> categories;
 
@@ -64,6 +66,14 @@ public class Menu {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public List<MenuCategory> getCategories() {
