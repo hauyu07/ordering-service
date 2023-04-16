@@ -28,7 +28,7 @@ public class CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
-    public void createCustomer(
+    public Customer createCustomer(
             String restaurantUserId,
             CustomerCreationDto customerCreationDto
     ) {
@@ -38,7 +38,7 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", restaurantUserId));
         Restaurant restaurant = user.getRestaurant();
         customer.setRestaurant(restaurant);
-        customerRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
     public List<CustomerListingDto> getCustomersByRestaurantUser(String restaurantUserId) {
