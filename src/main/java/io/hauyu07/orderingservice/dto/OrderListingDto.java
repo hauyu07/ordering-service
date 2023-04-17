@@ -1,6 +1,7 @@
 package io.hauyu07.orderingservice.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderListingDto {
 
@@ -9,6 +10,8 @@ public class OrderListingDto {
     private String status;
 
     private Integer tableNumber;
+
+    private List<OrderItemDto> orderItems;
 
     private Integer numberOfItems;
 
@@ -40,6 +43,14 @@ public class OrderListingDto {
 
     public void setTableNumber(Integer tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public List<OrderItemDto> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItemDto> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public Integer getNumberOfItems() {
