@@ -47,7 +47,7 @@ public class MenuController {
 
     @GetMapping("/active")
     public ResponseEntity<MenuDto> getActiveMenu(Principal principal) {
-        return ResponseEntity.ok(menuService.getActiveMenu(principal.getName()));
+        return ResponseEntity.ok(menuService.getActiveMenuForRestaurant(principal.getName()));
     }
 
     @PostMapping

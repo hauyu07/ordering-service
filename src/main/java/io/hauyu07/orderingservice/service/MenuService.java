@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MenuService {
@@ -34,6 +35,9 @@ public class MenuService {
     private UserRepository userRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private MenuMapper menuMapper;
 
     public List<Menu> getMenusByRestaurantUser(String userId) {
@@ -48,12 +52,20 @@ public class MenuService {
                 .orElseThrow(() -> new ResourceNotFoundException("Menu", "id", id));
     }
 
-    public MenuDto getActiveMenu(String userId) {
+    public MenuDto getActiveMenuForRestaurant(String userId) {
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         Restaurant restaurant = user.getRestaurant();
         Menu menu = menuRepository.findByRestaurantAndIsActive(restaurant, true);
+        return menuMapper.menuToMenuDto(menu);
+    }
+
+    public MenuDto getActiveMenuForCustomer(UUID customerId) {
+        Customer customer = customerRepository
+                .findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+        Menu menu = menuRepository.findByRestaurantAndIsActive(customer.getRestaurant(), true);
         return menuMapper.menuToMenuDto(menu);
     }
 
@@ -115,6 +127,7 @@ public class MenuService {
 
         menu.setName(menuUpdateDto.getName());
         menu.setDescription(menuUpdateDto.getDescription());
+        menu.setActive(menuUpdateDto.getActive());
         menuRepository.save(menu);
     }
 
