@@ -68,7 +68,7 @@ public class MenuController {
             @PathVariable Long id,
             @Valid @RequestBody MenuCreationDto menuCreationDto
     ) {
-        Menu menu = menuMapper.menuCreationDtoToMenu(menuCreationDto);
+        menuService.updateMenu(id, menuCreationDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

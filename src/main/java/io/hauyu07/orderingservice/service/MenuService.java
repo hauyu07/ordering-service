@@ -1,6 +1,9 @@
 package io.hauyu07.orderingservice.service;
 
+import io.hauyu07.orderingservice.dto.MenuCategoryCreationDto;
+import io.hauyu07.orderingservice.dto.MenuCreationDto;
 import io.hauyu07.orderingservice.dto.MenuDto;
+import io.hauyu07.orderingservice.dto.MenuItemCreationDto;
 import io.hauyu07.orderingservice.entity.*;
 import io.hauyu07.orderingservice.exception.ResourceNotFoundException;
 import io.hauyu07.orderingservice.mapper.MenuMapper;
@@ -79,40 +82,40 @@ public class MenuService {
     }
 
     @Transactional
-    public Menu updateMenu(Long id, Menu updatedMenu) {
+    public void updateMenu(Long id, MenuCreationDto menuUpdateDto) {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu", "id", id));
 
-        List<MenuCategory> categoriesToDelete = menu.getCategories();
-        List<MenuItem> itemsToDelete = new ArrayList<MenuItem>();
-        for (MenuCategory category : categoriesToDelete) {
-            itemsToDelete.addAll(category.getItems());
+        List<MenuCategory> currentMenuCategories = menu.getCategories();
+        List<MenuItem> currentMenuItems = new ArrayList<>();
+        for (MenuCategory menuCategory : currentMenuCategories) {
+            currentMenuItems.addAll(menuCategory.getItems());
         }
-        menuItemRepository.deleteAll(itemsToDelete);
-        menuCategoryRepository.deleteAll(categoriesToDelete);
 
-        List<MenuCategory> categoriesToCreate = updatedMenu.getCategories();
-        List<MenuItem> itemsToCreate = new ArrayList<MenuItem>();
-        for (MenuCategory category : categoriesToCreate) {
-            category.setMenu(menu);
-            List<MenuItem> items = category
-                    .getItems()
-                    .stream()
-                    .map(item -> {
-                        item.setCategory(category);
-                        return item;
-                    })
-                    .toList();
-            itemsToCreate.addAll(items);
+        List<MenuCategoryCreationDto> menuCategoryCreationDtos = menuUpdateDto.getCategories();
+        List<MenuCategory> newMenuCategories = new ArrayList<>();
+        List<MenuItem> newMenuItems = new ArrayList<>();
+
+        for (MenuCategoryCreationDto menuCategoryCreationDto : menuCategoryCreationDtos) {
+            MenuCategory menuCategory = menuMapper.menuCategoryCreationDtoToMenuCategory(menuCategoryCreationDto);
+            menuCategory.setMenu(menu);
+            newMenuCategories.add(menuCategory);
+            List<MenuItemCreationDto> menuItemCreationDtos = menuCategoryCreationDto.getItems();
+            for (MenuItemCreationDto menuItemCreationDto : menuItemCreationDtos) {
+                MenuItem menuItem = menuMapper.menuItemCreationDtoToMenuItem(menuItemCreationDto);
+                menuItem.setCategory(menuCategory);
+                newMenuItems.add(menuItem);
+            }
         }
-        List<MenuCategory> createdMenuCategories = menuCategoryRepository.saveAll(categoriesToCreate);
-        menuItemRepository.saveAll(itemsToCreate);
 
-        menu.setName(updatedMenu.getName());
-        menu.setDescription(updatedMenu.getDescription());
-        menu.setCategories(createdMenuCategories);
+        menuItemRepository.deleteAll(currentMenuItems);
+        menuCategoryRepository.deleteAll(currentMenuCategories);
+        menuCategoryRepository.saveAll(newMenuCategories);
+        menuItemRepository.saveAll(newMenuItems);
 
-        return menuRepository.save(menu);
+        menu.setName(menuUpdateDto.getName());
+        menu.setDescription(menuUpdateDto.getDescription());
+        menuRepository.save(menu);
     }
 
     public void deleteMenu(Long id) {
