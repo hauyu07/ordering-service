@@ -16,7 +16,6 @@ public interface OrderMapper {
 
     Order orderCreationDtoToOrder(OrderCreationDto orderCreationDto);
 
-
     @Mapping(target = ".", source = "menuItem")
     OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
 
@@ -29,6 +28,8 @@ public interface OrderMapper {
 
     List<OrderListingDto> orderListToOrderListingDtoList(List<Order> orderList);
 
+    List<OrderItemDto> orderItemListToOrderItemDtoList(List<OrderItem> orderItemList);
+
     @AfterMapping
     default void calculateNumberOfItems(Order order, @MappingTarget OrderListingDto orderListingDto) {
         int count = 0;
@@ -37,5 +38,10 @@ public interface OrderMapper {
             count += item.getQuantity();
         }
         orderListingDto.setNumberOfItems(count);
+    }
+
+    @AfterMapping
+    default void getTableNumber(Order order, @MappingTarget OrderListingDto orderListingDto) {
+        orderListingDto.setTableNumber(order.getCustomer().getTableNumber());
     }
 }

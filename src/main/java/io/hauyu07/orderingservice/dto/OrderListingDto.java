@@ -11,7 +11,7 @@ public class OrderListingDto {
 
     private Integer tableNumber;
 
-    private List<OrderItemDto> orderItems;
+    private List<OrderItemDto> items;
 
     private Integer numberOfItems;
 
@@ -45,12 +45,12 @@ public class OrderListingDto {
         this.tableNumber = tableNumber;
     }
 
-    public List<OrderItemDto> getOrderItems() {
-        return orderItems;
+    public List<OrderItemDto> getItems() {
+        return items;
     }
 
-    public void setOrderItems(List<OrderItemDto> orderItems) {
-        this.orderItems = orderItems;
+    public void setItems(List<OrderItemDto> items) {
+        this.items = items;
     }
 
     public Integer getNumberOfItems() {
