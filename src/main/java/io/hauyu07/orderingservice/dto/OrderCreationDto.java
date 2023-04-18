@@ -7,6 +7,8 @@ public class OrderCreationDto {
 
     private Integer tableNumber;
 
+    private String name;
+
     @NotEmpty(message = "Invalid items: must consist at least 1 item")
     private List<OrderItemCreationDto> items;
 
@@ -16,6 +18,14 @@ public class OrderCreationDto {
 
     public void setTableNumber(Integer tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<OrderItemCreationDto> getItems() {

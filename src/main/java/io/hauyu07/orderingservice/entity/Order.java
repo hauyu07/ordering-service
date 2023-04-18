@@ -15,6 +15,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String name;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -43,6 +45,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Restaurant getRestaurant() {

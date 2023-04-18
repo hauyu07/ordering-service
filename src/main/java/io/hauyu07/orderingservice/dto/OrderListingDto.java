@@ -11,6 +11,8 @@ public class OrderListingDto {
 
     private Integer tableNumber;
 
+    private String name;
+
     private List<OrderItemDto> items;
 
     private Integer numberOfItems;
@@ -43,6 +45,14 @@ public class OrderListingDto {
 
     public void setTableNumber(Integer tableNumber) {
         this.tableNumber = tableNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<OrderItemDto> getItems() {
