@@ -8,6 +8,8 @@ public class MenuDto {
 
     private String description;
 
+    private Boolean isActive;
+
     private RestaurantDto restaurant;
 
     private List<MenuCategoryDto> categories;
@@ -26,6 +28,14 @@ public class MenuDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public RestaurantDto getRestaurant() {

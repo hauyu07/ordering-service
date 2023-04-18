@@ -8,6 +8,8 @@ public class MenuListingDto {
 
     private String description;
 
+    private Boolean isActive;
+
     public Long getId() {
         return id;
     }
@@ -30,5 +32,13 @@ public class MenuListingDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }
